@@ -1,7 +1,7 @@
+{% extends "base.html" %}
 {% load static %}
-<head>
-    <script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>
-<!--    <style>
+{% block content %}
+    <!--    <style>
         *,
 *::before,
 *::after {
@@ -104,43 +104,6 @@ section {
 
 
 
-
-
-{% load static %}
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sign Up Form</title>
-
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="{% static 'shortner/index.css' %}" />
-       <link href='https://fonts.googleapis.com/css?family=Nunito:400,300' rel='stylesheet' type='text/css'>
-    </head>
-    <body>
-<!--Navigation bar-->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-    <div class="navbar-nav">
-    <!--Navigation items-->
-      <!--Insert a modal into login-->
-        {% if user.is_authenticated %}
-        <ul class="navbar-nav ml-auto">
-            <a class="nav-item nav-link" data-toggle="modal" href="{% url 'logout' %}" data-target="#exampleModal" class="logout">Logout</a>
-            <a class="nav-item nav-link" data-toggle="modal" href="{% url 'dashboard' %}" data-target="#exampleModal" class="logout">Dashboard</a>
-        </ul>
-        {% else %}
-        <ul class="navbar-nav ml-auto">
-            <a class="nav-item nav-link" data-toggle="modal" href="{% url 'login' %}" data-target="#exampleModal" class="logout">Login For More!</a>
-        </ul>
-        {% endif %}
-    </div>
-  </div>
-</nav>
       <div class="row">
     <div class="col-md-12">
         <!--
@@ -162,15 +125,14 @@ section {
           <input type="url" id="url" />
                     
         </fieldset>
-       
         <button type="submit" id="submit">Shorten URL</button>
-        <section id="section"><h2></h2></section>
+        <section id="section"> <br><h2></h2></section>
        </form>
        
 
         </div>
       </div>
-      
+
     </body>
 </html>
 
@@ -210,6 +172,7 @@ section {
 
   $(document).on('submit','#post-form',function(e){
     e.preventDefault();
+    console.log("API CALL from docuemt");
     $("section").show();
     $.ajax({
       type:'POST',
@@ -227,3 +190,4 @@ section {
     });
   });
 </script>
+{% endblock %}

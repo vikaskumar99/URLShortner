@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+<h1>Urls Created</h1>
+<div class="row">
+    <div class="col-auto table-responsive">
+        <table class="table table-striped table-hover mx-auto w-auto">
+        <thead class="thead-dark">
+            <th>No.</th>
+            <th>Link</th>
+            <th>Short Link</th>
+            <th>Total Clicks</th>
+        </thead>
+        <tbody>
+        {% if objects %}
+            {% for object in objects %}
+            <tr>
+               <td><strong>{{ forloop.counter }} </strong></td>
+               <td><strong>{{ object.link}}</strong></td>
+               <td>localhost:8000/{{object.uuid}}</td>
+                <td>{{object.clicks}}</td>
+            </tr>
+            {% endfor %}
+            </tbody>
+            </table>
+        {% else %}
+        <td colspan="4">No Data Found!!!</td>
+        {% endif %}
+    </div>
+    <div>
+</div>
+
+
+{% endblock %}

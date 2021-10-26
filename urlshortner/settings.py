@@ -27,7 +27,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -37,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'shortner'
+    'shortner',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -124,4 +124,15 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+LOGIN_URL = '/auth/login/google-oauth2/'
+
 LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
+
+AUTHENTICATION_BACKENDS = ['social_core.backends.google.GoogleOAuth2',
+                            'django.contrib.auth.backends.ModelBackend',
+                           'shortner.authentication.EmailOrUsernameModelBackend']
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '525162868508-udgluf0s1sv6qft80ordd48at8bdp6bg.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
