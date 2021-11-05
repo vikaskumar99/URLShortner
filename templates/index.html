@@ -72,7 +72,8 @@
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
       },
       success: function(data){
-        $('h2').html("localhost:8000/"+data)
+        $('h2').html("localhost:8000/"+data);
+        console.log("data received is", data);
       },
       error: function(XMLHttpRequest, textStatus, errorThrown) {
         $('h2').html("Invalid URL entered")
