@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
+import django_heroku
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,7 +27,7 @@ SECRET_KEY = 'django-insecure-zrravs)^qwyrj5(d*0z!rtovl1ptf&-4uy%eu2@_165=d&x2f&
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [*]
 
 # Application definition
 
@@ -75,10 +77,7 @@ WSGI_APPLICATION = 'urlshortner.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config()
 }
 
 
@@ -136,3 +135,4 @@ AUTHENTICATION_BACKENDS = ['social_core.backends.google.GoogleOAuth2',
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '525162868508-udgluf0s1sv6qft80ordd48at8bdp6bg.apps.googleusercontent.com'
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
+django_heroku.settings(locals())
