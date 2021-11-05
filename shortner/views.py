@@ -21,18 +21,21 @@ def create(request):
         if not validate_url(url):
             print("returning not valid url status 402")
             return HttpResponse(status=402)
-
-        url_obj = Url.objects.filter(link=url, created_user=request.user)
-        print("url object search", url_obj)
-        if url_obj:
-            url_obj = url_obj[0]
-            print("URL object of [0]")
-            return HttpResponse(url_obj.uuid)
-        uid = str(uuid.uuid4())[:5]
-        url_obj = Url(link=url, uuid=uid, created_user=request.user)
-        url_obj.save()
-        print("URL object new create", url_obj)
-        return HttpResponse(uid)
+        try:
+            url_obj = Url.objects.filter(link=url, created_user=request.user)
+            print("url object search", url_obj)
+            if url_obj:
+                url_obj = url_obj[0]
+                print("URL object of [0]")
+                return HttpResponse(url_obj.uuid)
+            uid = str(uuid.uuid4())[:5]
+            url_obj = Url(link=url, uuid=uid, created_user=request.user)
+            url_obj.save()
+            print("URL object new create", url_obj)
+            return HttpResponse(uid)
+        except Exception as e:
+            print("Exception occuring is", e)
+            return render(request, "404_error.html")
 
 def go(request, pk):
     """ When the user visits the short url add a click to that URL and save it"""
