@@ -3,7 +3,7 @@ from django.conf import settings
 
 from django.contrib.auth.models import User
 User._meta.get_field('email')._unique = True
-# Create your models here.
+
 class Url(models.Model):
     link = models.CharField(max_length=10000)
     uuid = models.CharField(max_length=10)

@@ -1,33 +1,28 @@
 import uuid
 from django.shortcuts import render, redirect
-from django.http import HttpResponse, HttpResponseNotFound, Http404
-from django.contrib.auth import logout
-from django.contrib.auth.forms import UserCreationForm
+from django.http import HttpResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from urllib.parse import urlparse
 from .models import Url
 from .utils import validate_url
 from .forms import CreateUserForm
 
-# Create your views here.
+
 def index(request):
+    """ Return the homepage """
     return render(request, 'index.html')
 
 def create(request):
+    """ Create a short url and return its ID """
     if request.method == "POST":
-        print("url in request", request.POST)
         url = request.POST['link']
         if not validate_url(url):
             return HttpResponse(status=402)
-        try:
-            url_obj = Url.objects.filter(link=url, created_user=request.user)
-        except:
-            pass
+
+        url_obj = Url.objects.filter(link=url, created_user=request.user)
         if url_obj:
             url_obj = url_obj[0]
-            print("returning existing link", url_obj)
             return HttpResponse(url_obj.uuid)
         uid = str(uuid.uuid4())[:5]
         url_obj = Url(link=url, uuid=uid, created_user=request.user)
@@ -36,13 +31,11 @@ def create(request):
         return HttpResponse(uid)
 
 def go(request, pk):
+    """ When the user visits the short url add a click to that URL and save it"""
     try:
         url_obj = Url.objects.get(uuid=pk)
     except:
         return render(request, '404_error.html')
-        raise Http404
-    print("\n\n\nrequests", request.META)
-    print("clicks is", url_obj.clicks)
     url_obj.clicks += 1
     url_obj.save()
     link = url_obj.link
@@ -51,11 +44,12 @@ def go(request, pk):
     return redirect("https://" + url_obj.link)
 
 def logout_request(request):
-    print("user details", request.user, request.user.id)
+    """ Logout the user """
     logout(request)
     return redirect("index")
 
 def login_user(request):
+    """ Login the user and show the home page """
     if request.user.is_authenticated:
         return redirect("index")
     if request.method == "POST":
@@ -72,6 +66,7 @@ def login_user(request):
     return render(request, "login.html")
 
 def register_user(request):
+    """ Register the user on the platform """
     if request.user.is_authenticated:
         return redirect("index")
 
@@ -85,24 +80,17 @@ def register_user(request):
             messages.success(request, f"Thanks, {name} your account has been created, please login")
             return redirect('login')
 
-    print("\n\n\nentering register user", form)
     context = {"form": form}
     return render(request, "register.html", context)
 
 @login_required(login_url="login")
 def show_login_user_links(request):
+    """ Show created URLs of the user """
     try:
         url_obj = Url.objects.filter(created_user=request.user)
-    except Exception as e:
-        print("error is", e)
+    except Exception:
         return render(request, '404_error.html')
-        raise Http404
     context = {"objects": url_obj}
-
-    print("links are", url_obj)
     return render(request, "dashboard.html", context)
 
-def google(request):
-    print("\n\n\n entering google auth\n\n\n")
-    return render(request, "404.html")
 

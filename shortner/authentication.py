@@ -7,7 +7,6 @@ class EmailOrUsernameModelBackend(object):
 
     """
     def authenticate(self, request, username=None, password=None):
-        print("\n\n\n entering auth custom\n\n\n", username, password)
         if '@' in username:
             kwargs = {'email': username}
         else:
