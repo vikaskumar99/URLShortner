@@ -28,10 +28,15 @@ def create(request):
                 url_obj = url_obj[0]
                 print("URL object of [0]")
                 return HttpResponse(url_obj.uuid)
-        uid = str(uuid.uuid4())[:5]
-        url_obj = Url(link=url, uuid=uid, created_user=request.user)
-        url_obj.save()
-        print("URL object new create", url_obj)
+            uid = str(uuid.uuid4())[:5]
+            url_obj = Url(link=url, uuid=uid, created_user=request.user)
+            url_obj.save()
+        else:
+            print("create new entry")
+            uid = str(uuid.uuid4())[:5]
+            url_obj = Url(link=url, uuid=uid)
+            url_obj.save()
+            print("URL object new create", url_obj)
         return HttpResponse(uid)
 
 def go(request, pk):
