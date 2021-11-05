@@ -36,9 +36,11 @@ def create(request):
 
 def go(request, pk):
     """ When the user visits the short url add a click to that URL and save it"""
+    print("entering the go request")
     try:
         url_obj = Url.objects.get(uuid=pk)
     except:
+        print("nothing found hence showing 404 error")
         return render(request, '404_error.html')
     url_obj.clicks += 1
     url_obj.save()
