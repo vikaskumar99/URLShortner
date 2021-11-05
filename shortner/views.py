@@ -21,7 +21,7 @@ def create(request):
         if not validate_url(url):
             print("returning not valid url status 402")
             return HttpResponse(status=402)
-        if request.user.is_authenticated():
+        if request.user.is_authenticated:
             url_obj = Url.objects.filter(link=url, created_user=request.user)
             print("url object search", url_obj)
             if url_obj:
