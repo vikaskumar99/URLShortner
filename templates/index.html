@@ -66,7 +66,7 @@
     $("section").show();
     $.ajax({
       type:'POST',
-      url:'create/',
+      url:'create',
       data:{
         link:$('#url').val(),
         csrfmiddlewaretoken:$('input[name=csrfmiddlewaretoken]').val(),
